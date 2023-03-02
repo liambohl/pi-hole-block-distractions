@@ -4,7 +4,7 @@ import subprocess
 import sys
 from datetime import datetime
 
-log_file_name = 'pi-hole-focus.log'
+log_file_name = 'pi-hole-block-distractions.log'
 verbose = False
 
 block_list = [
@@ -37,14 +37,14 @@ def log_append(string):
 		log_file.write(log)
 
 def unblock():
-	command = 'pihole --regex -nuke'
-	completed_process = subprocess.run(command, shell=True, stderr=subprocess.STDOUT)
-	log_append(completed_process.stdout)
+	command = 'pihole --regex --nuke'
+	completed_process = subprocess.run(command, shell=True, capture_output=True)
+	log_append(completed_process.stdout.decode('UTF-8'))
 
 def block():
 	command = 'pihole --regex {}'.format(' '.join(block_list))
-	completed_process = subprocess.run(command, shell=True, stderr=subprocess.STDOUT)
-	log_append(completed_process.stdout)
+	completed_process = subprocess.run(command, shell=True, capture_output=True)
+	log_append(completed_process.stdout.decode('UTF-8'))
 
 def block_or_unblock_first_time():
 	now = datetime.today()
@@ -60,12 +60,9 @@ if (__name__ == '__main__'):
 		verbose = True
 	block_or_unblock_first_time()
 
-	# schedule.every().day.at(f'{unblock_hour:02d}:{unblock_minute:02d}').do(unblock)
-	# schedule.every().day.at(f'{block_hour:02d}:{block_minute:02d}').do(block)
-	schedule.every().minute.do(unblock)
-	time.sleep(30)
-	schedule.every().minute.do(block)
-
+	schedule.every().day.at(f'{unblock_hour:02d}:{unblock_minute:02d}').do(unblock)
+	schedule.every().day.at(f'{block_hour:02d}:{block_minute:02d}').do(block)
+	
 	while(True):
 		schedule.run_pending()
 		time.sleep(15)
