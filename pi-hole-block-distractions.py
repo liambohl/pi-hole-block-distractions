@@ -9,16 +9,24 @@ verbose = False
 
 block_list = [
 	'youtube.com',
-	'googlevideo.com',	# YouTube CDN
+	'googlevideo.com',		# YouTube CDN
 	'reddit.com',
 	'redditstatic.com',
 	'redditmedia.com',
 	'redd.it',
 	'netflix.com',
 	'nflxvideo.net',		# Netflix CDN
-	'akamaihd.net',		# Prime Video CDN
+	'akamaihd.net',			# Prime Video CDN
 	'nebula.tv',
 	'nebula.app',
+	'itunes.apple.com',		# Apple TV
+	'hbo.com',
+	'hbomax.com',
+	'warnermediacdn.com',	# used by HBO Max
+	'curiositystream.com',
+	'tubitv.com',
+	'disney-plus.net',
+	'jetpunk.com',
 ]
 
 # When do we unblock domains (time to veg in the evening)
