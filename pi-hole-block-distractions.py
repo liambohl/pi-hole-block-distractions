@@ -11,6 +11,10 @@ block_list = [
     'youtube.com',
     'youtubei.googleapis.com',  # Used by YouTube app
     'googlevideo.com',          # YouTube CDN
+    'twitch.tv',
+    'twitchcdn.net',
+    'ttvnw.net',
+    'jtvnw.net',                # More Twitch stuff
     'reddit.com',
     'redditstatic.com',
     'redditmedia.com',
