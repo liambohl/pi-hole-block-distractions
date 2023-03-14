@@ -53,6 +53,11 @@ def unblock():
     command = 'pihole --regex --nuke'
     completed_process = subprocess.run(command, shell=True, capture_output=True)
     log_append(completed_process.stdout.decode('UTF-8'))
+    
+    # Block something stupid to force pi-hole to reload the DNS lists
+    command = 'pihole --regex somethingstupid.com'
+    completed_process = subprocess.run(command, shell=True, capture_output=True)
+    log_append(completed_process.stdout.decode('UTF-8'))
 
 def block():
     command = 'pihole --regex {}'.format(' '.join(block_list))
