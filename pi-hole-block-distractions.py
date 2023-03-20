@@ -32,6 +32,11 @@ block_list = [
     'tubitv.com',
     'disney-plus.net',
     'jetpunk.com',
+    'tiktok.com',
+    'tiktokcdn-us.com',
+    'tiktokv.com',
+    'ttwstatic.com',
+    'tiktokcdn.com',
 ]
 
 # When do we unblock domains (time to veg in the evening)
