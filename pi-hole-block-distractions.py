@@ -45,6 +45,9 @@ unblock_minute = 30
 # When do we block domains (time to get ready for bed)
 block_hour = 22
 block_minute = 0
+# When do we restart the DNS server?
+restart_hour = 4
+restart_minute = 0
 
 def log_append(string):
     time_str = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
@@ -69,6 +72,11 @@ def block():
     completed_process = subprocess.run(command, shell=True, capture_output=True)
     log_append(completed_process.stdout.decode('UTF-8'))
 
+def restart():
+    command = 'pihole restartdns'
+    completed_process = subprocess.run(command, shell=True, capture_output=True)
+    log_append(completed_process.stdout.decode('UTF-8'))
+
 def block_or_unblock_first_time():
     now = datetime.today()
     unblock_time_today = now.replace(hour=unblock_hour, minute=unblock_minute, second=0, microsecond=0)
@@ -85,6 +93,7 @@ if (__name__ == '__main__'):
 
     schedule.every().day.at(f'{unblock_hour:02d}:{unblock_minute:02d}').do(unblock)
     schedule.every().day.at(f'{block_hour:02d}:{block_minute:02d}').do(block)
+    schedule.every().day.at(f'{restart_hour:02d}:{restart_minute:02d}').do(block)
 
     while(True):
         schedule.run_pending()
