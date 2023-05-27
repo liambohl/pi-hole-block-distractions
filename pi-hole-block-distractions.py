@@ -35,6 +35,11 @@ block_list = [
     'tubitv.com',
     'disney-plus.net',
     'jetpunk.com',
+    'tiktok.com',
+    'tiktokcdn-us.com',
+    'tiktokv.com',
+    'ttwstatic.com',
+    'tiktokcdn.com',
 ]
 
 # When do we unblock domains (time to veg in the evening)
@@ -43,6 +48,9 @@ unblock_minute = 30
 # When do we block domains (time to get ready for bed)
 block_hour = 22
 block_minute = 0
+# When do we restart the DNS server?
+restart_hour = 4
+restart_minute = 0
 
 def log_append(string):
     time_str = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
@@ -56,9 +64,19 @@ def unblock():
     command = 'pihole --regex --nuke'
     completed_process = subprocess.run(command, shell=True, capture_output=True)
     log_append(completed_process.stdout.decode('UTF-8'))
+    
+    # Block something stupid to force pi-hole to reload the DNS lists
+    command = 'pihole --regex somethingstupid.com'
+    completed_process = subprocess.run(command, shell=True, capture_output=True)
+    log_append(completed_process.stdout.decode('UTF-8'))
 
 def block():
     command = 'pihole --regex {}'.format(' '.join(block_list))
+    completed_process = subprocess.run(command, shell=True, capture_output=True)
+    log_append(completed_process.stdout.decode('UTF-8'))
+
+def restart():
+    command = 'pihole restartdns'
     completed_process = subprocess.run(command, shell=True, capture_output=True)
     log_append(completed_process.stdout.decode('UTF-8'))
 
@@ -78,6 +96,7 @@ if (__name__ == '__main__'):
 
     schedule.every().day.at(f'{unblock_hour:02d}:{unblock_minute:02d}').do(unblock)
     schedule.every().day.at(f'{block_hour:02d}:{block_minute:02d}').do(block)
+    schedule.every().day.at(f'{restart_hour:02d}:{restart_minute:02d}').do(block)
 
     while(True):
         schedule.run_pending()
