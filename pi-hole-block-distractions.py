@@ -9,7 +9,10 @@ verbose = False
 
 block_list = [
     'youtube.com',
+    'www.youtube.com',
     'youtubei.googleapis.com',  # Used by YouTube app
+    'i.ytimg.com',
+    'yt3.ggpht.com',
     'googlevideo.com',          # YouTube CDN
     'twitch.tv',
     'twitchcdn.net',
@@ -35,7 +38,7 @@ block_list = [
 ]
 
 # When do we unblock domains (time to veg in the evening)
-unblock_hour = 19
+unblock_hour = 17
 unblock_minute = 30
 # When do we block domains (time to get ready for bed)
 block_hour = 22
