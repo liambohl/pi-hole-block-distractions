@@ -96,7 +96,7 @@ if (__name__ == '__main__'):
 
     schedule.every().day.at(f'{unblock_hour:02d}:{unblock_minute:02d}').do(unblock)
     schedule.every().day.at(f'{block_hour:02d}:{block_minute:02d}').do(block)
-    schedule.every().day.at(f'{restart_hour:02d}:{restart_minute:02d}').do(block)
+    schedule.every().day.at(f'{restart_hour:02d}:{restart_minute:02d}').do(restart)
 
     while(True):
         schedule.run_pending()
